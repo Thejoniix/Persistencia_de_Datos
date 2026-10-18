@@ -1,138 +1,115 @@
-# Persistencia de Datos – CRUD con PostgreSQL
+# UsoCRUD - Órdenes de servicio técnico (COMPUMAIB)
 
-## Descripción
+Aplicación de escritorio en Java que permite gestionar las órdenes de servicio técnico de la empresa **Compumaib**. Usa un ORM (Hibernate con JPA) para guardar los datos en una base de datos PostgreSQL, sin escribir sentencias SQL.
 
-Este proyecto forma parte de las actividades de la asignatura **Persistencia de Datos**. Su objetivo es implementar operaciones CRUD (*Create, Read, Update, Delete*) utilizando Java y PostgreSQL.
+Proyecto de la asignatura **Persistencia de Datos** (Unidad 1: Asociación objeto-relacional).
 
-El sistema permite gestionar productos mediante una conexión a una base de datos relacional, facilitando el registro, la consulta, la modificación y la eliminación de información.
+## Qué hace
 
-## Tecnologías utilizadas
+La ventana permite hacer el CRUD completo sobre las órdenes de servicio:
 
-- **Java:** lenguaje de programación.
-- **NetBeans IDE:** entorno de desarrollo.
-- **PostgreSQL:** sistema gestor de bases de datos relacionales.
-- **JDBC:** tecnología de Java para conectar y ejecutar operaciones SQL en la base de datos.
+| Botón | Acción |
+|---|---|
+| Nuevo | Limpia el formulario para registrar otra orden |
+| Insertar | Guarda una orden nueva en la base de datos |
+| Actualizar | Modifica la orden seleccionada en la tabla |
+| Eliminar | Borra la orden seleccionada |
 
-## Funcionalidades
+Para editar o eliminar una orden, se hace clic en su fila de la tabla.
 
-- **Crear:** registrar productos con su nombre y precio.
-- **Leer:** consultar los productos almacenados.
-- **Actualizar:** modificar el nombre y el precio de un producto.
-- **Eliminar:** borrar productos mediante su identificador.
-- **Conexión a la base de datos:** comunicación entre Java y PostgreSQL mediante JDBC.
+## Tecnologías
 
-## Requisitos previos
-
-Antes de ejecutar el proyecto, es necesario tener instalado:
-
-1. Java JDK.
-2. NetBeans IDE.
-3. PostgreSQL.
-4. El controlador JDBC de PostgreSQL.
-
-## Instalación y configuración
-
-### 1. Clonar el repositorio
-
-Abre una terminal y ejecuta:
-
-```bash
-git clone https://github.com/Thejoniix/Persistencia_de_Datos.git
-```
-
-Ingresa a la carpeta del proyecto:
-
-```bash
-cd Persistencia_de_Datos/Persistencia_de_Datos/Tarea1/UsoCRUD
-```
-
-Abre el proyecto desde NetBeans.
-
-### 2. Crear la base de datos
-
-En pgAdmin, ejecuta:
-
-```sql
-CREATE DATABASE tienda;
-```
-
-Después, selecciona la base de datos `tienda` y crea la tabla:
-
-```sql
-CREATE TABLE productos (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    precio NUMERIC(10, 2) NOT NULL
-        CHECK (precio >= 0)
-);
-```
-
-### 3. Configurar la conexión
-
-En la clase Java que administra la conexión, configura los datos de PostgreSQL:
-
-```java
-static final String URL =
-    "jdbc:postgresql://localhost:5432/tienda";
-
-static final String USUARIO = "postgres";
-
-static final String CLAVE = "TU_CLAVE";
-```
-
-Reemplaza `TU_CLAVE` por la contraseña correspondiente a tu instalación de PostgreSQL.
-
-### 4. Agregar el controlador JDBC
-
-Si el proyecto utiliza Maven, agrega la dependencia del controlador PostgreSQL en el archivo `pom.xml`:
-
-```xml
-<dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>42.7.13</version>
-</dependency>
-```
-
-Si el proyecto no utiliza Maven, descarga el controlador desde [PostgreSQL JDBC](https://jdbc.postgresql.org/download/) y agrégalo a las bibliotecas del proyecto en NetBeans.
-
-### 5. Ejecutar el proyecto
-
-1. Abre el proyecto en NetBeans.
-2. Verifica la conexión con PostgreSQL.
-3. Comprueba que la base de datos y la tabla estén creadas.
-4. Configura la clase principal del proyecto.
-5. Ejecuta el programa y selecciona la operación CRUD deseada.
+- Java (JDK 25; también funciona con 17 o 21 cambiando `maven.compiler.release`)
+- Maven
+- Hibernate ORM 7.3.1 (JPA)
+- PostgreSQL 16 o superior
+- Swing (interfaz gráfica)
+- NetBeans como IDE
 
 ## Estructura del proyecto
 
-La estructura exacta depende de los archivos existentes en el repositorio. Una organización posible es:
-
-```text
-Persistencia_de_Datos/
-└── Persistencia_de_Datos/
-    └── Tarea1/
-        └── UsoCRUD/
-            ├── src/
-            │   └── Main.java
-            ├── pom.xml
-            └── README.md
+```
+UsoCRUD
+├── pom.xml
+└── src/main
+    ├── java
+    │   ├── entities
+    │   │   └── OrdenServicio.java      (entidad mapeada a la tabla)
+    │   └── com/mycompany/usocrud
+    │       └── Main.java               (ventana y operaciones CRUD)
+    └── resources/META-INF
+        └── persistence.xml             (conexión a la base de datos)
 ```
 
-## Seguridad y buenas prácticas
+## Tabla en la base de datos
 
-- Utilizar `PreparedStatement` para ejecutar consultas parametrizadas.
-- Validar los datos antes de almacenarlos.
-- Manejar las excepciones relacionadas con la conexión y las operaciones SQL.
-- No publicar contraseñas reales en el repositorio.
-- Realizar copias de seguridad de la base de datos cuando sea necesario.
+La tabla `tb_orden_servicio` la crea Hibernate automáticamente al ejecutar el programa.
 
-## Conclusión
+| Columna | Tipo | Descripción |
+|---|---|---|
+| id | integer (clave primaria) | Identificador autogenerado |
+| cliente | varchar | Nombre del cliente |
+| equipo | varchar | Equipo recibido (marca, modelo, RAM, almacenamiento) |
+| falla | varchar | Falla o servicio a realizar |
+| estado | varchar | RECIBIDA, EN_REPARACION, FINALIZADA o ENTREGADA |
+| costo | double precision | Costo del servicio |
 
-El proyecto permite aplicar los conceptos de persistencia de datos mediante una aplicación Java conectada a PostgreSQL. La implementación de las operaciones CRUD demuestra cómo gestionar información almacenada en una base de datos relacional desde un programa de escritorio.
+## Requisitos
+
+1. JDK instalado (el proyecto está configurado para el 25).
+2. NetBeans con soporte para Maven.
+3. PostgreSQL instalado y en ejecución (puerto 5432).
+4. pgAdmin (opcional, para revisar los datos).
+
+## Configuración
+
+1. Crear la base de datos en PostgreSQL:
+
+   ```sql
+   CREATE DATABASE bd_compumaib;
+   ```
+
+2. Abrir `src/main/resources/META-INF/persistence.xml` y poner la contraseña de tu usuario `postgres`:
+
+   ```xml
+   <property name="jakarta.persistence.jdbc.password" value="TU_CONTRASEÑA"/>
+   ```
+
+   Si PostgreSQL usa otro puerto, usuario o base de datos, cambiar también la propiedad `jakarta.persistence.jdbc.url` y `jakarta.persistence.jdbc.user`.
+
+## Cómo ejecutarlo
+
+1. Abrir el proyecto en NetBeans (*File > Open Project*).
+2. Clic derecho sobre el proyecto y elegir *Clean and Build*. Debe terminar con `BUILD SUCCESS`.
+3. Clic derecho sobre `Main.java` y elegir *Run File* (`Shift+F6`).
+4. Se abre la ventana de órdenes de servicio.
+
+## Cómo usarlo
+
+1. Escribir cliente, equipo, falla, estado y costo, y presionar **Insertar**.
+2. Hacer clic en una fila de la tabla para cargar sus datos en el formulario.
+3. Cambiar los datos y presionar **Actualizar**, o presionar **Eliminar** para borrar la orden.
+4. Presionar **Nuevo** para limpiar el formulario.
+
+Para comprobar los datos en pgAdmin:
+
+```sql
+SELECT * FROM public.tb_orden_servicio ORDER BY id;
+```
+
+## Problemas comunes
+
+| Error | Causa |
+|---|---|
+| `password authentication failed` | La contraseña del `persistence.xml` no coincide con la de PostgreSQL |
+| `database "bd_compumaib" does not exist` | Falta crear la base de datos |
+| `Connection refused` | PostgreSQL no está encendido o usa otro puerto |
+| `Unable to locate persistence units` | `persistence.xml` no está en `src/main/resources/META-INF/` o tiene mal escrita la estructura |
+| `release version 25 not supported` | El JDK es anterior; cambiar `maven.compiler.release` en el `pom.xml` |
+| Error al iniciar tras cambiar la entidad | Borrar la tabla vieja con `DROP TABLE tb_orden_servicio;` y volver a ejecutar |
 
 ## Autor
 
-**Jonathan**  
-Asignatura: Persistencia de Datos  
-Repositorio: [Thejoniix/Persistencia_de_Datos](https://github.com/Thejoniix/Persistencia_de_Datos)
+Nombre: _________________________
+
+Asignatura: Persistencia de Datos - Universidad Politécnica Salesiana
