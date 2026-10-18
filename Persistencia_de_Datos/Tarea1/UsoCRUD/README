@@ -91,25 +91,3 @@ La tabla `tb_orden_servicio` la crea Hibernate automáticamente al ejecutar el p
 3. Cambiar los datos y presionar **Actualizar**, o presionar **Eliminar** para borrar la orden.
 4. Presionar **Nuevo** para limpiar el formulario.
 
-Para comprobar los datos en pgAdmin:
-
-```sql
-SELECT * FROM public.tb_orden_servicio ORDER BY id;
-```
-
-## Problemas comunes
-
-| Error | Causa |
-|---|---|
-| `password authentication failed` | La contraseña del `persistence.xml` no coincide con la de PostgreSQL |
-| `database "bd_compumaib" does not exist` | Falta crear la base de datos |
-| `Connection refused` | PostgreSQL no está encendido o usa otro puerto |
-| `Unable to locate persistence units` | `persistence.xml` no está en `src/main/resources/META-INF/` o tiene mal escrita la estructura |
-| `release version 25 not supported` | El JDK es anterior; cambiar `maven.compiler.release` en el `pom.xml` |
-| Error al iniciar tras cambiar la entidad | Borrar la tabla vieja con `DROP TABLE tb_orden_servicio;` y volver a ejecutar |
-
-## Autor
-
-Nombre: _________________________
-
-Asignatura: Persistencia de Datos - Universidad Politécnica Salesiana
