@@ -15,7 +15,7 @@
         <class>com.compumaib.modelo.DetalleOrden</class>
 
         <properties>
-            <!-- Cambia estos valores según tu PostgreSQL -->
+
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bd_compumaib"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
@@ -25,7 +25,7 @@
             <property name="hibernate.hikari.maximumPoolSize" value="10"/>
             <property name="hibernate.hikari.minimumIdle" value="2"/>
 
-            <!-- update = crea/actualiza tablas automáticamente -->
+
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
