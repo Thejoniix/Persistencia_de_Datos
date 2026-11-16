@@ -1,51 +1,42 @@
-============================================================
-  COMPUMAIB - Unidad 3  |  Modelo ORM + Consultas JPQL + GUI
-  Universidad Politécnica Salesiana
-============================================================
+COMPUMAIB
+=========
 
-CÓMO ABRIR EN NETBEANS
-----------------------
-1. File → Open Project
-2. Selecciona la carpeta COMPUMAIB_U3
-3. NetBeans detectará que es un proyecto Maven
+Sistema de órdenes de servicio técnico con JPA.
 
-CONFIGURAR LA BASE DE DATOS
----------------------------
-Edita:  src/main/resources/META-INF/persistence.xml
+Requisitos
+----------
+- Java 25
+- PostgreSQL
+- NetBeans / Maven
 
-Cambia usuario/contraseña de PostgreSQL si es necesario.
-Crea la base si no existe:
+Configuración
+-------------
+Editar: src/main/resources/META-INF/persistence.xml
+
+  jdbc.url      = jdbc:postgresql://localhost:5432/bd_compumaib
+  jdbc.user     = postgres
+  jdbc.password = 1234
+
+Crear la base de datos:
   CREATE DATABASE bd_compumaib;
 
-Las tablas se crean/actualizan solas (hbm2ddl.auto = update).
+Ejecutar
+--------
+Main.java       → Interfaz gráfica (CRUD)
+PruebaJPQL.java → Consultas JPQL + datos de prueba
 
-CLASES PRINCIPALES
-------------------
-  Main.java          →  Interfaz gráfica (Swing)  ← ejecutar esta
-  PruebaJPQL.java    →  Prueba de las 3 consultas JPQL por consola
+Entidades
+---------
+Cliente
+Equipo
+Tecnico
+OrdenServicio
+Repuesto
+DetalleOrden
 
-ENTIDADES (6)
--------------
-  Cliente, Equipo, Tecnico, OrdenServicio, Repuesto, DetalleOrden
-
-RELACIONES
+Relaciones
 ----------
-  Cliente     1 ─── N  OrdenServicio
-  Equipo      1 ─── N  OrdenServicio
-  Tecnico     1 ─── N  OrdenServicio
-  Cliente     1 ─── N  Equipo
-  OrdenServicio  N ─── N  Repuesto   (vía DetalleOrden)
-
-CÓMO EJECUTAR
--------------
-  Opción A (GUI):     clic derecho en Main.java → Run File
-  Opción B (consola): clic derecho en PruebaJPQL.java → Run File
-
-  El botón "Ejecutar consultas JPQL" de la GUI muestra las 3 consultas
-  en un cuadro de diálogo.
-
-RECOMENDACIÓN
--------------
-1. Ejecuta primero PruebaJPQL (carga datos de ejemplo + muestra consultas).
-2. Luego ejecuta Main (interfaz gráfica con esos datos).
-============================================================
+Cliente 1 → N OrdenServicio
+Equipo  1 → N OrdenServicio
+Tecnico 1 → N OrdenServicio
+OrdenServicio N ↔ N Repuesto (DetalleOrden)
